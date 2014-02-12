@@ -1,5 +1,5 @@
 /**
- * DRAGONFLAME
+ * BREATH
  * js1k interactive demo
  * subzey, 2014
 **/
@@ -124,8 +124,12 @@ setInterval(function() {
 		// screen and up at the right
 		var yCoefficient = 1 + x / 60;
 		// Intensity for pixel
+		var rand = Math.random();
 		var L;
-		if (x !== 29 || i < 16 * a.width || i > 22 * a.width || fireDisabled) {
+		if (
+			(i!= 3179 || rand) && // small "idle" flame
+			(x !== 29 || i < 16 * a.width || i > 22 * a.width || fireDisabled)
+		) {
 			// Normal pixels. Use matrix convolution
 			L = (
 				// x3 from self
@@ -136,12 +140,13 @@ setInterval(function() {
 				intensityData[i - a.width] * (5 - yCoefficient) +
 				// x(4.7..5) from left pixel. Flames should move slightly
 				// slower closed to the right edge
+				// Flame will wrap around the screen, that's okay
 				intensityData[i - 1] * (5 - x / 500)
 			) / (
 				// Carefully picked number
 				12.37 +
 				// Randomness! This thing makes flame fuzzy
-				Math.random()
+				rand
 			) || 0;
 		} else {
 			// Row of "iginition" pixels. Located in mounth of dragon

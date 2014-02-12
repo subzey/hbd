@@ -1,17 +1,1 @@
-V=[];
-I=c.getImageData(0,0,a.width=150,a.height=60);P=I.data;
-setInterval(function(){
-	N=[];
-	for(i=150*60;i--;){
-		x=i%150;
-		X=x/500;
-		Y=1+x/60;
-		N[i]=(x==30&&i>16*150&&i<24*150)?255:(V[i]*3+V[i+150]*Y+V[i-150]*(5-Y)+V[i-1]*(5-X))/(12.37+Math.random())||0;
-		P[i*4]=N[i];
-		P[i*4+1]=N[i]*2-256;
-		P[i*4+2]=i/150;
-		P[i*4+3]=255;
-	}
-	V=N;
-	c.putImageData(I,0,0);
-}, 40);
+V=[I=c.getImageData(0,0,w=a.width=150,a.height=60)];P=I.data;setInterval('N=[];for(i=9000;i--;P[O+1]=L*2-(P[O+3]=255),P[O+2]=i/w)x=i%w,Y=1+x/60,P[O=i*4]=L=N[i]=(x==30&&i>2400&i<3600)?255:(V[i]*3+V[i+w]*Y+V[i-w]*(5-Y)+V[i-1]*(5-x/500))/(12.37+Math.random())||0;V=N;c.putImageData(I,0,0)',40);

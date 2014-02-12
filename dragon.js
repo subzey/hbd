@@ -12,14 +12,12 @@ c.stroke();
 c.beginPath();
 c.moveTo(130, 140);
 c.strokeStyle=act?'#730':'#333';
-c.lineWidth = 2.5;
 c.fill();
 c.bezierCurveTo(
 	60, 0,
-	-30, 20,
-	-40, 90
+	-125, -125,
+	0,600
 );
-c.lineTo(0, 600);
 c.bezierCurveTo(
 	210, 300,
 	0, 300,

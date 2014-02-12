@@ -1,43 +1,16 @@
-b.bgColor=0
+b.bgColor=0;
 var act = true;
 
-c.scale(a.width/500, a.height/500);
-c.moveTo(0,0);
-c.lineTo(500,500);
-c.moveTo(500,0);
-c.lineTo(0,500);
-c.stroke();
-
-// Top
+c.scale(a.width/200,a.height/200);
 c.beginPath();
-c.moveTo(130, 140);
+c.moveTo(52,56);
 c.strokeStyle=act?'#730':'#333';
+c.bezierCurveTo(24,0,-50,-50,0,240);
+c.bezierCurveTo(84,120,0,120,24,56);
+c.stroke(c.fillStyle=act?'#310':'#100');
 c.fill();
-c.bezierCurveTo(
-	60, 0,
-	-125, -125,
-	0,600
-);
-c.bezierCurveTo(
-	210, 300,
-	0, 300,
-	60, 140
-);
-c.fillStyle = act?'#310':'#100';
-c.stroke();
-c.fill();
-
-// Front
-
-
-
-// Mouth
 c.beginPath();
-c.moveTo(100, 140);
-c.bezierCurveTo(
-	130, 290,
-	-60, 90,
-	130, 140
-);
-act && (c.fillStyle="#FF0");
+c.moveTo(40,56);
+c.bezierCurveTo(52,116,-24,36,52,56);
+act&&(c.fillStyle="#FF0");
 c.fill();

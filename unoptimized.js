@@ -1,1 +1,36 @@
-a.style.position='absolute';u=b.appendChild(y=a.cloneNode(n=b.bgColor=0)).getContext('2d');d=function(){y.width+=0;u.scale(y.width/200,y.height/200);u.strokeStyle=s?'#333':'#430';u.beginPath(u.fillStyle=s?0:'#100');u.moveTo(0,145);u.bezierCurveTo(25,70,30,60,39,300);u.beginPath(u.stroke(u.fill()));u.moveTo(52,56);u.bezierCurveTo(24,0,-50,-50,0,240);u.bezierCurveTo(60,125,0,120,23,76);u.bezierCurveTo(49,91,36,60,36,55);u.moveTo(26,44);u.bezierCurveTo(26,40,28,40,16,35);u.fill();u.moveTo(0,99);u.bezierCurveTo(0,99,20,70,10,300);u.beginPath(u.stroke());u.moveTo(40,56);u.bezierCurveTo(52,116,-24,38,52,56);s?u.stroke():u.fillStyle='#FF0';u.fill();u.beginPath(u.fillStyle='#A70');u.moveTo(24,39);u.bezierCurveTo(24,43,22,43,22,38);u.fill();n||u.fillText('HOLD MOUSE BUTTON',45,9)};d(f=[m=c.getImageData(0,0,s=w=a.width=150,a.height=60)]);P=m.data;setInterval('n=[];for(i=9000;i--;P[O+1]=L*2-(P[O+3]=255),P[O+2]=i/w)x=i%w,Y=1+x/60,P[O=i*4]=L=n[i]=i^3179|(r=Math.random())>.2&&x^29|i<2300|i>3400|s?(f[i]*3+f[i+w]*Y+f[i-w]*(5-Y)+f[i-1]*(5-x/500))/(12.37+r)||0:255;f=n;c.putImageData(m,0,0)',40);b.onmousedown=b.onmouseup=function(){d(s=!s)}
+a.style.position='absolute';u=b.appendChild(y=a.cloneNode(n=b.bgColor=0)).getContext('2d');
+d=function(){
+y.width+=0;
+u.scale(y.width/200,y.height/200);
+u.strokeStyle=s?'#333':'#430';
+u.fillStyle=s?0:'#100';
+u.beginPath();
+u.moveTo(0,145);
+u.bezierCurveTo(25,70,30,60,39,300);
+u.fill();
+u.stroke();
+u.beginPath();
+u.moveTo(52,56);
+u.bezierCurveTo(24,0,-50,-50,0,240);
+u.bezierCurveTo(60,125,0,120,23,76);
+u.bezierCurveTo(49,91,36,60,36,55);
+u.moveTo(26,44);
+u.bezierCurveTo(26,40,28,40,16,35);
+u.fill();
+u.moveTo(0,99);
+u.bezierCurveTo(0,99,20,70,10,300);
+u.stroke();
+u.beginPath();
+u.moveTo(40,56);
+u.bezierCurveTo(52,116,-24,38,52,56);
+s?u.stroke():u.fillStyle='#FF0';
+u.fill();
+u.fillStyle='#A70';
+u.beginPath();
+u.moveTo(24,39);
+u.bezierCurveTo(24,43,22,43,22,38);
+u.fill();
+n||u.fillText('HOLD MOUSE BUTTON',45,9)
+};
+d(f=[m=c.getImageData(0,0,s=w=a.width=150,a.height=60)]);P=m.data;setInterval('n=[];for(i=9000;i--;P[O+1]=L*2-(P[O+3]=255),P[O+2]=i/w)x=i%w,Y=1+x/60,P[O=i*4]=L=n[i]=i^3179|(r=Math.random())>.2&&x^29|i<2300|i>3400|s?(f[i]*3+f[i+w]*Y+f[i-w]*(5-Y)+f[i-1]*(5-x/500))/(12.37+r)||0:255;f=n;c.putImageData(m,0,0)',40);
+b.onmousedown=b.onmouseup=function(){d(s=!s)}

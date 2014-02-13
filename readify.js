@@ -1,7 +1,11 @@
 var str = require('fs').readFileSync('crushed.js', 'utf-8');
 
-var usedCharCodes = str.split('').reduce(function(acc, v){acc[v.charCodeAt()] = v;return acc;}, []);
-["'", '"', '\\'].forEach(function(v){usedCharCodes[v.charCodeAt()] = v;});
+var rawStrings = '';
+str.replace(/('|")(\\\1|.)*\1/g, function(s){rawStrings += s;});
+
+
+var usedCharCodes = rawStrings.split('').reduce(function(acc, v){acc[v.charCodeAt()] = v;return acc;}, []);
+usedCharCodes[92] = '\\'; // Very bad replacement char
 
 function getUnusedCharCode(){
 	for (var i=0x20; i<0x7F; i++){

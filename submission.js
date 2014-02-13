@@ -1,1 +1,0 @@
-V=[I=c.getImageData(0,0,w=a.width=150,a.height=60)];P=I.data;setInterval('N=[];for(i=9000;i--;P[O+1]=L*2-(P[O+3]=255),P[O+2]=i/w)x=i%w,Y=1+x/60,P[O=i*4]=L=N[i]=(x^30|i<2400|i>3600)?(V[i]*3+V[i+w]*Y+V[i-w]*(5-Y)+V[i-1]*(5-x/500))/(12.37+Math.random())||0:255;V=N;c.putImageData(I,0,0)',40);

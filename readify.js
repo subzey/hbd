@@ -18,7 +18,7 @@ function getUnusedCharCode(){
 	0x09, // Tab
 	0x0d, // \r
 	0x0a, // \n
-	0x01,
+/*	0x01,
 	0x02,
 	0x03,
 	0x04,
@@ -45,7 +45,7 @@ function getUnusedCharCode(){
 	0x1c,
 	0x1d,
 	0x1e,
-	0x1f
+	0x1f */
 ].forEach(function(dropCode){
 	if (!usedCharCodes[dropCode]) return;
 	var newCharCode = getUnusedCharCode();

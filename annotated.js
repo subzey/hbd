@@ -19,80 +19,11 @@ b.appendChild(clonedCanvas);
 // Get its context
 clonedCanvasContext = clonedCanvas.getContext('2d');
 
-// Function to draw dragon.
-// It colud be done inside setTimeout, but this approach is more performant
-// and allows intro text
-var drawDragon = function() {
-	// Set width to canvas. It act like a reset
-	clonedCanvas.width = clonedCanvas.width;
-	// Set proper scale, so we can use absolute values for drawing.
-	// Context width stays the same, so we get smooth curves
-	clonedCanvasContext.scale(clonedCanvas.width / 200, clonedCanvas.height / 200);
-	// Outline color, depending on flame throwing state
-	clonedCanvasContext.strokeStyle = fireDisabled ? '#333333' : '#443300';
-	// Fill color
-	clonedCanvasContext.fillStyle = fireDisabled ? '#000000' : '#110000';
-
-	// Draw background wing
-	clonedCanvasContext.beginPath();
-	clonedCanvasContext.moveTo(0, 145);
-	clonedCanvasContext.bezierCurveTo(25, 70, 30, 60, 39, 300);
-	clonedCanvasContext.fill();
-	clonedCanvasContext.stroke();
-
-	// Draw head and belly (filled)
-	clonedCanvasContext.beginPath();
-	clonedCanvasContext.moveTo(52, 56);
-	clonedCanvasContext.bezierCurveTo(24, 0, -50, -50, 0, 240);
-	clonedCanvasContext.bezierCurveTo(60, 125, 0, 120, 23, 76);
-	clonedCanvasContext.bezierCurveTo(49, 91, 36, 60, 36, 55);
-
-	// Draw eyebrow
-	clonedCanvasContext.moveTo(26, 44);
-	clonedCanvasContext.bezierCurveTo(26, 40, 28, 40, 16, 35);
-
-	// Fill entire body
-	clonedCanvasContext.fill();
-
-	// Draw foreground wing. We don't need to fill it
-	clonedCanvasContext.moveTo(0, 99);
-	clonedCanvasContext.bezierCurveTo(0, 99, 20, 70, 10, 300);
-
-	// Draw outlines: head, belly, eyebrow, fg wing
-	// Now we have plenty of garbage near mouth
-	clonedCanvasContext.stroke();
-
-	// Draw mouth
-	clonedCanvasContext.beginPath();
-	clonedCanvasContext.moveTo(40, 56);
-	clonedCanvasContext.bezierCurveTo(52, 116, -24, 38, 52, 56);
-	if (fireDisabled) {
-		// Outline mouth if not flamethrowing.
-		// Looks not good, but it's better than empty hole
-		// Fill color stays the same, black
-		clonedCanvasContext.stroke();
-	} else {
-		// Flamethrowing, change fill color to yellow
-		clonedCanvasContext.fillStyle = '#FFFF00';
-	}
-	// Fill
-	clonedCanvasContext.fill();
-
-	// Draw and fill an eye
-	clonedCanvasContext.fillStyle = '#AA7700';
-	clonedCanvasContext.beginPath();
-	clonedCanvasContext.moveTo(24, 39);
-	clonedCanvasContext.bezierCurveTo(24, 43, 22, 43, 22, 38);
-	clonedCanvasContext.fill();
-
-	// If setTimeout'ed function never started yet, show help
-	if (!newData) {
-		clonedCanvasContext.fillText('HOLD MOUSE BUTTON', 45, 9);
-	}
-};
-
 // Global flamethrowing state
 fireDisabled = true;
+
+// Counter for flashing left button
+hintCounter = 0;
 
 // Change context size while keeping canvas size
 // Flame would be shown stretched
@@ -110,9 +41,6 @@ pixelChannelValues = imageData.data;
 // undefineds
 intensityData = [];
 
-// Draw dragon for the first time
-drawDragon();
-
 // Every 40 ms...
 setInterval(function() {
 	// new values
@@ -120,14 +48,14 @@ setInterval(function() {
 	for (var i = 0; i < a.width * a.height; i++) {
 		// x coordinate
 		var x = i % a.width;
-		// y coefficient. FLames should move down at the left side of the
+		// clonedCanvas coefficient. FLames should move down at the left side of the
 		// screen and up at the right
 		var yCoefficient = 1 + x / 60;
 		// Intensity for pixel
 		var rand = Math.random();
 		var L;
 		if (
-			(i!= 3179 || rand) && // small "idle" flame
+			(i!= 3179 || rand > .2) && // small "idle" flame
 			(x !== 29 || i < 16 * a.width || i > 22 * a.width || fireDisabled)
 		) {
 			// Normal pixels. Use matrix convolution
@@ -171,9 +99,123 @@ setInterval(function() {
 	intensityData = newData;
 	// Draw flames on canvas
 	c.putImageData(imageData, 0, 0);
+
+	// Okay, now it's time to draw dragon over the flames
+
+	// Reset canvas
+	clonedCanvas.width=clonedCanvas.width;
+	// Set fill and stroke color depending on state
+	clonedCanvasContext.fillStyle=fireDisabled?'#000':'#100';
+	clonedCanvasContext.strokeStyle=fireDisabled?'#333':'#430';
+	// Apply transform so we can draw in absolute coordinates
+	clonedCanvasContext.scale(clonedCanvas.width/200,clonedCanvas.height/200);
+
+	// Draw background wing, fill and stroke
+	clonedCanvasContext.beginPath();
+	clonedCanvasContext.moveTo(0,145);
+	clonedCanvasContext.bezierCurveTo(25,70,30,60,39,300);
+	clonedCanvasContext.fill();
+	clonedCanvasContext.stroke();
+	
+	// Draw head end body
+	clonedCanvasContext.beginPath();
+	clonedCanvasContext.moveTo(52,56);
+	clonedCanvasContext.bezierCurveTo(54,35,34,35,25,22);
+	clonedCanvasContext.bezierCurveTo(25,23,-50,-50,0,240);
+	clonedCanvasContext.bezierCurveTo(60,125,0,120,23,77);
+	clonedCanvasContext.bezierCurveTo(49,91,36,60,36,55);
+	
+	// Draw eyebrow
+	clonedCanvasContext.moveTo(26,44);
+	clonedCanvasContext.bezierCurveTo(26,40,28,40,16,35);
+
+	// Fill head, body and eyebrow. We don't actually need to fill eyebrow,
+	// but nothing bad would happed if we do it.
+	clonedCanvasContext.fill();
+	
+	// Draw foreground wing. We don't need to fill it
+	clonedCanvasContext.moveTo(0,99);
+	clonedCanvasContext.bezierCurveTo(0,99,20,70,10,300);
+
+	// Stroke head, body, eyebrow and wing
+	clonedCanvasContext.stroke();
+
+	// Now we got huge mess near the mouth region, we should cover it will
+	// filled region.
+	
+	// Draw mouth
+	clonedCanvasContext.beginPath();
+	clonedCanvasContext.moveTo(40,56);
+	clonedCanvasContext.bezierCurveTo(52,116,-24,38,52,56);
+	
+	// Draw nostril
+	clonedCanvasContext.moveTo(42,50);
+	clonedCanvasContext.bezierCurveTo(38,47,38,46,37,49);
+	
+	if (!fireDisabled){
+		// If dragon activated, change the color (of mouth and nostril)
+		// to yellow
+		clonedCanvasContext.fillStyle='#FF0';
+	}
+
+	// Fill mouth and nostril
+	clonedCanvasContext.fill();
+	if (fireDisabled){
+		// Stroke if fill is black
+		clonedCanvasContext.stroke();
+	}
+
+	// After 4 seconds and if hintCounter is not NaN (disabled)
+	if(hintCounter++>99){
+		// Draw most of the mouse icon
+		clonedCanvasContext.beginPath();
+		clonedCanvasContext.moveTo(170,124);
+		clonedCanvasContext.bezierCurveTo(208,120,166,247,155,149);
+		// Fill it (with black) and stroke
+		clonedCanvasContext.fill();
+		clonedCanvasContext.stroke();
+
+		// Draw left button
+		clonedCanvasContext.beginPath();
+		clonedCanvasContext.moveTo(185,149);
+		clonedCanvasContext.lineTo(155,149);
+		clonedCanvasContext.bezierCurveTo(155,124,163,124,170,124);
+		clonedCanvasContext.lineTo(170,149);
+		if (hintCounter / 9 & 1){
+			// Color depends on timer: flashing effect
+			clonedCanvasContext.fillStyle=clonedCanvasContext.strokeStyle
+		}
+		
+		// Fill and stroke left button
+		clonedCanvasContext.fill();
+		clonedCanvasContext.stroke()
+	}
+	// Restore fillStyle
+	clonedCanvasContext.fillStyle=fireDisabled?'#000':'#100';
+
+	// Draw and fill teeth
+	clonedCanvasContext.beginPath();
+	clonedCanvasContext.moveTo(34,79);
+	clonedCanvasContext.bezierCurveTo(34,69,34,69,32,78);
+	clonedCanvasContext.moveTo(39,76);
+	clonedCanvasContext.bezierCurveTo(38,69,38,69,37,78);
+	clonedCanvasContext.moveTo(35,54);
+	clonedCanvasContext.bezierCurveTo(35,66,35,66,37,54);
+	clonedCanvasContext.moveTo(43,55);
+	clonedCanvasContext.bezierCurveTo(43,65,43,65,45,55);
+	clonedCanvasContext.fill();
+
+	// Draw and fill an eye
+	clonedCanvasContext.fillStyle='#E70';
+	clonedCanvasContext.beginPath();
+	clonedCanvasContext.moveTo(24,39);
+	clonedCanvasContext.bezierCurveTo(24,43,22,43,22,38);
+	clonedCanvasContext.fill()
 }, 40);
-// Toggle state and re-render dragon
+
 b.onmousedown = b.onmouseup = function() {
+	// Toggle state
 	fireDisabled = !fireDisabled;
-	drawDragon();
+	// Disable hint counter (comparison will always yield false for NaN)
+	hintCounter = NaN;
 };

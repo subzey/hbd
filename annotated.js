@@ -7,11 +7,7 @@
 // Let canvas be positioned absolutely.
 // Its position is already (0, 0), so we don't need to set left/top
 a.style.position = 'absolute';
-// Set <body> background to black. Not actually needed, but it looks better
-// while loading or after resize
-b.bgColor = '#000000';
-// Define newData to something falsy
-var newData = null;
+
 // Clone canvas element. It already have position: absolute
 clonedCanvas = a.cloneNode();
 // Append it to body. Now we have two layers for drawing
